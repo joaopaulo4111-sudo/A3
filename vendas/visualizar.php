@@ -57,7 +57,7 @@ $stmtItens = $pdo->prepare("
      ORDER BY ve.modelo ASC
 ");
 $stmtItens->execute([':id' => $id]);
-$itens = $stmtItens->fetchAll();
+$veiculosVenda = $stmtItens->fetchAll();
 
 // 3. Pagamentos efetuados desta venda
 $stmtPag = $pdo->prepare("
@@ -73,7 +73,7 @@ $pagamentos = $stmtPag->fetchAll();
 $valorTotal   = (float) $venda['valor_total'];
 $desconto     = (float) $venda['desconto'];
 $subtotal     = 0.0;
-foreach ($itens as $it) {
+foreach ($veiculosVenda as $it) {
     $subtotal += (float) $it['valor_vendido'];
 }
 
@@ -183,7 +183,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="card-app mb-4">
     <div class="card-header">
         <h3 class="card-title"><i class="bi bi-car-front text-primary"></i> Veículo(s) Incluído(s) na Venda</h3>
-        <span class="badge bg-light text-secondary border"><?= count($itens) ?> item(ns)</span>
+        <span class="badge bg-light text-secondary border"><?= count($veiculosVenda) ?> item(ns)</span>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -201,14 +201,14 @@ require_once __DIR__ . '/../includes/header.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($itens)): ?>
+                    <?php if (empty($veiculosVenda)): ?>
                         <tr>
                             <td colspan="8" class="text-center text-muted py-4">
                                 Nenhum veículo associado atualmente a esta venda (possivelmente cancelada).
                             </td>
                         </tr>
                     <?php else: ?>
-                        <?php foreach ($itens as $it): ?>
+                        <?php foreach ($veiculosVenda as $it): ?>
                             <tr>
                                 <td class="fw-bold text-muted">#<?= $it['id_veiculo'] ?></td>
                                 <td>

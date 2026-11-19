@@ -9,7 +9,7 @@
  * ============================================================
  */
 
-$menu = [
+$sidebarMenu = [
     'Principal' => [
         ['chave' => 'dashboard',    'texto' => 'Dashboard',    'icone' => 'bi-speedometer2',    'link' => 'dashboard.php'],
     ],
@@ -39,22 +39,22 @@ $menu = [
     </a>
 
     <nav class="sidebar-nav">
-        <?php foreach ($menu as $secao => $itens): ?>
+        <?php foreach ($sidebarMenu as $sidebarSecao => $sidebarItens): ?>
             <?php
             // Remove os itens restritos quando o usuário não é administrador
-            $itensVisiveis = array_filter($itens, fn($item) => empty($item['admin']) || ehAdministrador());
-            if (!$itensVisiveis) {
+            $sidebarItensVisiveis = array_filter($sidebarItens, fn($sidebarItem) => empty($sidebarItem['admin']) || ehAdministrador());
+            if (!$sidebarItensVisiveis) {
                 continue;
             }
             ?>
-            <div class="sidebar-section"><?= e($secao) ?></div>
+            <div class="sidebar-section"><?= e($sidebarSecao) ?></div>
             <ul class="nav flex-column">
-                <?php foreach ($itensVisiveis as $item): ?>
+                <?php foreach ($sidebarItensVisiveis as $sidebarItem): ?>
                     <li class="nav-item">
-                        <a class="nav-link <?= $paginaAtiva === $item['chave'] ? 'active' : '' ?>"
-                           href="<?= url($item['link']) ?>">
-                            <i class="bi <?= $item['icone'] ?>"></i>
-                            <span><?= e($item['texto']) ?></span>
+                        <a class="nav-link <?= $paginaAtiva === $sidebarItem['chave'] ? 'active' : '' ?>"
+                           href="<?= url($sidebarItem['link']) ?>">
+                            <i class="bi <?= $sidebarItem['icone'] ?>"></i>
+                            <span><?= e($sidebarItem['texto']) ?></span>
                         </a>
                     </li>
                 <?php endforeach; ?>
@@ -62,12 +62,12 @@ $menu = [
         <?php endforeach; ?>
     </nav>
 
-    <?php if ($usuario = usuarioLogado()): ?>
+    <?php if ($sidebarUsuario = usuarioLogado()): ?>
         <div class="sidebar-user">
-            <span class="avatar"><?= e(mb_strtoupper(mb_substr($usuario['nome'], 0, 1))) ?></span>
+            <span class="avatar"><?= e(mb_strtoupper(mb_substr($sidebarUsuario['nome'], 0, 1))) ?></span>
             <div class="flex-grow-1 overflow-hidden">
-                <div class="user-name text-truncate"><?= e($usuario['nome']) ?></div>
-                <div class="user-role text-capitalize"><?= e($usuario['perfil']) ?></div>
+                <div class="user-name text-truncate"><?= e($sidebarUsuario['nome']) ?></div>
+                <div class="user-role text-capitalize"><?= e($sidebarUsuario['perfil']) ?></div>
             </div>
             <a href="<?= url('auth/logout.php') ?>" class="btn-logout" title="Sair">
                 <i class="bi bi-box-arrow-right"></i>
